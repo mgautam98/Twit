@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+    <title>Trend Twit</title>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+
+      function initMap() {
+        var myLatLng = [
+                {lat: 28.674, lng: 77.201},
+                {lat: 40.729, lng: -73.663},
+                {lat: 36.908, lng: 99.348},
+                {lat: 35.406, lng: 138.620},
+                {lat: 50.172, lng: 8.887},
+                {lat: 52.799, lng: -2.538},
+                {lat: 48.727, lng: 1.943},
+                {lat: -10.013, lng: -56.634},
+                {lat: 42.112, lng: 13.316},
+                {lat: 59.049, lng: -112.771},
+                {lat: 61.043, lng: 93.273},
+                {lat: 35.276, lng: 127.009},
+                {lat: -27.152, lng: 134.329},
+                {lat: 39.970, lng: -1.699},
+                {lat: -3.926, lng: 122.040},
+                {lat: 22.160, lng: -102.406},
+                {lat: 38.412, lng: 35.813},
+                {lat: 21.594, lng: 46.369},
+                {lat: 46.648, lng: 7.892},
+                {lat: 25.469, lng: 29.298}
+            ];
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 2,
+          center: {lat: 45.603, lng: 6.411}
+        });
+        
+        var place = <%- JSON.stringify(hashtags) %>;
+        
+        myLatLng.forEach(function(location){
+            var marker = new google.maps.Marker({
+              position: location,
+              map: map,
+              title: place
+            });
+        });
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC17UvKxlS670uXf3ORNkM4LEpToIg4k14&callback=initMap">
+    </script>
+  </body>
+</html>
