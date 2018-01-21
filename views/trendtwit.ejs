@@ -24,43 +24,125 @@
     <script>
 
       function initMap() {
+        
+        //locations
         var myLatLng = [
-                {lat: 28.674, lng: 77.201},
-                {lat: 40.729, lng: -73.663},
-                {lat: 36.908, lng: 99.348},
-                {lat: 35.406, lng: 138.620},
-                {lat: 50.172, lng: 8.887},
-                {lat: 52.799, lng: -2.538},
-                {lat: 48.727, lng: 1.943},
-                {lat: -10.013, lng: -56.634},
-                {lat: 42.112, lng: 13.316},
-                {lat: 59.049, lng: -112.771},
-                {lat: 61.043, lng: 93.273},
-                {lat: 35.276, lng: 127.009},
-                {lat: -27.152, lng: 134.329},
-                {lat: 39.970, lng: -1.699},
-                {lat: -3.926, lng: 122.040},
-                {lat: 22.160, lng: -102.406},
-                {lat: 38.412, lng: 35.813},
-                {lat: 21.594, lng: 46.369},
-                {lat: 46.648, lng: 7.892},
-                {lat: 25.469, lng: 29.298}
-            ];
-
+          {
+            point:{lat: 28.674, lng: 77.201},
+            woeid:23424848
+          },
+          {
+            point:{lat: 40.729, lng: -73.663},
+            woeid:2459115
+          },
+          {
+            point:{lat: 36.908, lng: 99.348},
+            woeid:23424781
+          },
+          {
+            point:{lat: 35.406, lng: 138.620},
+            woeid:23424856
+          },
+          {
+            point:{lat: 50.172, lng: 8.887},
+            woeid:23424829
+          },
+          {
+            point:{lat: 52.799, lng: -2.538},
+            woeid:23424975
+          },
+          {
+            point:{lat: 48.727, lng: 1.943},
+            woeid:23424819
+          },
+          {
+            point:{lat: -10.013, lng: -56.634},
+            woeid:23424768
+          },{
+            point:{lat: 42.112, lng: 13.316},
+            woeid:23424853
+          },
+          {
+            point:{lat: 59.049, lng: -112.771},
+            woeid:23424775
+          },
+          {
+            point:{lat: 61.043, lng: 93.273},
+            woeid:23424936
+          },
+          {
+            point:{lat: 35.276, lng: 127.009},
+            woeid:23424868
+          },
+          {
+            point:{lat: -27.152, lng: 134.329},
+            woeid:23424748
+          },
+          {
+            point:{lat: 39.970, lng: -1.699},
+            woeid:23424950
+          },
+          {
+            point:{lat: -3.926, lng: 122.040},
+            woeid:23424846
+          },
+          {
+            point:{lat: 22.160, lng: -102.406},
+            woeid:23424900
+          },
+          {
+            point:{lat: 38.412, lng: 35.813},
+            woeid:23424969
+          },
+          {
+            point:{lat: 21.594, lng: 46.369},
+            woeid:23424938
+          },
+          {
+            point:{lat: 46.648, lng: 7.892},
+            woeid:23424957
+          },
+          {
+            point:{lat: 25.469, lng: 29.298},
+            woeid:23424802
+          }
+        ];
+        
+  
+        //setting up the maps
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 2,
           center: {lat: 45.603, lng: 6.411}
         });
         
-        var place = <%- JSON.stringify(hashtags) %>;
+        //passing the variables to js
+        var hashtag = <%- JSON.stringify(hashtags) %>;
+        var location = <%- JSON.stringify(locations) %>;
+        var place = [];
         
-        myLatLng.forEach(function(location){
-            var marker = new google.maps.Marker({
-              position: location,
+        
+        //shorting the locations
+        // function findplace(){
+        //   for(var i=0; i<=myLatLng.length; i++){
+        //     for(var j=0; j<=location.length; j++){
+        //           if(location[j]==myLatLng[i].woeid){
+        //             place.push(hashtag[j]);
+        //             break;
+        //           }
+        //         }
+        //     }
+        // }
+        // findplace();
+        
+        //Placing the markers
+        for(var i=0; i<=myLatLng.length; i++){
+          var marker = new google.maps.Marker({
+              position: myLatLng[i].point,
               map: map,
-              title: place
+              title: hashtag[i]
             });
-        });
+        }
+        
       }
     </script>
     <script async defer
