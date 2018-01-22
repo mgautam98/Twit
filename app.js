@@ -163,14 +163,26 @@ var trendOptions = [
   }
   
   ];
-
-trendOptions.forEach(function(trend){
+  
+  //function for updating map
+  
+  
+  function updateMaps(){
+    trendOptions.forEach(function(trend){
       callTwitter(trend, function(trendsArray) {
         console.log(trendsArray[0].trends[0].name);
         hashtags.push(trendsArray[0].trends[0].name);
         locations.push(trendsArray[0].locations[0].woeid);
       });
     });
+  }
+  
+  updateMaps();
+  
+  //Every 5min maps are updated
+  setInterval(updateMaps, 1000*60*5);
+
+
 
 
 //routes

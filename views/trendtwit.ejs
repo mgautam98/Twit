@@ -4,7 +4,7 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
-    <title>Trend Twit</title>
+    <title>Trend Twit || Live View</title>
     <style>
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
@@ -20,6 +20,31 @@
     </style>
   </head>
   <body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark ">
+      <div class="container">
+        <a class="navbar-brand" href="/">Trending Twit</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+  
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/login">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/register">Register</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/logout">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
     <div id="map"></div>
     <script>
 
@@ -122,24 +147,26 @@
         
         
         //shorting the locations
-        // function findplace(){
-        //   for(var i=0; i<=myLatLng.length; i++){
-        //     for(var j=0; j<=location.length; j++){
-        //           if(location[j]==myLatLng[i].woeid){
-        //             place.push(hashtag[j]);
-        //             break;
-        //           }
-        //         }
-        //     }
-        // }
-        // findplace();
+        function findplace(){
+          for(var i=0; i<myLatLng.length; i++){
+              for(var j=0; j<location.length; j++){
+                if(myLatLng[i].woeid==location[j]){
+                  console.log(location[j]);
+                  place.push(hashtag[j]);
+                  break;
+                }
+              }
+            }
+        }
+        
+        findplace();
         
         //Placing the markers
         for(var i=0; i<=myLatLng.length; i++){
           var marker = new google.maps.Marker({
               position: myLatLng[i].point,
               map: map,
-              title: hashtag[i]
+              title: place[i]
             });
         }
         
