@@ -1,6 +1,11 @@
 var express = require("express");
 var bodyParser = require('body-parser');
 var https = require('https');
+var mongoose = require("mongoose");
+var sessions = require("client-sessions");
+var bcrypt = require('bcryptjs');
+var salt = bcrypt.genSaltSync(10);
+var hash = bcrypt.hashSync("B4c0/\/", salt);
 
 var app = express();
 
@@ -9,9 +14,26 @@ var headers = {
 	Authorization: 'Bearer ' + require('./oauth.json').access_token
 };
 
+mongoose.connect("mongodb://localhost/trending_twit", {useMongoClient: true});
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: false }));
+
+
+let User = mongoose.model("User", new mongoose.Schema({
+    firstname: {type:String, required:true},
+    lastname: {type:String, required:true},
+    email: {type:String, required:true, unique:true},
+    password: {type:String, required:true}
+}));
+
+app.use(sessions({
+  cookieName: 'session', 
+  secret: 'blargadeeblargblarg', 
+  duration: 30 * 60 * 1000, 
+  activeDuration: 1000 * 60 * 5 
+}));
+
 
 var hashtags = [];
 var locations = []; //woeids
@@ -192,7 +214,71 @@ app.get("/", function(req, res){
 });
 
 app.get("/trendtwit", function(req, res){
-    res.render("trendtwit", {hashtags:hashtags, locations:locations});
+    res.render("trendtwit", 
+    {
+      hashtags:hashtags, 
+      locations:locations
+      
+    });
+});
+
+app.get("/register", function(req, res) {
+    res.render("register");
+});
+
+app.post("/register", function(req, res) {
+        var hash = bcrypt.hashSync(req.body.password, 8);
+    req.body.password = hash;
+    var user = new User(req.body);
+    
+    user.save((err) =>{
+        if(err){
+            var error = "Opps! something went wrong.";
+            
+            if(err.code===11000){
+                error="This email is already registered";
+            }
+            
+            res.render("/register", {error:error});
+        }
+        res.redirect("/dashboard");
+    });
+});
+
+app.get("/login", function(req, res) {
+    res.render("login");
+});
+
+app.post("/login", function(req, res) {
+      User.findOne({email:req.body.email}, function(err, user){
+         if(err || !user || !bcrypt.compareSync(req.body.password, user.password)){
+             res.render("login", {error:"user not found"});
+         } 
+             req.session.userId = user._id;
+             res.redirect("/dashboard");
+        
+      });
+});
+
+app.get("/dashboard", function(req, res){
+    if(!(req.session && req.session.userId)){
+        return res.redirect("/login");
+    }
+    
+    User.findById(req.session.userId, function(err, user){
+        if(err){
+            console.log("Opps! something went wrong");
+            if(!user){
+                return res.redirect("/login");
+            }
+        }
+        res.render("dashboard");
+    });
+});
+
+app.get("/logout", function(req, res) {
+   req.session.userId= 0;
+   res.redirect("/");
 });
 
 

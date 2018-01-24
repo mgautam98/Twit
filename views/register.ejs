@@ -1,0 +1,23 @@
+<% include ./partials/header %>
+
+<br>
+<h1>Register Form</h1>
+<br>
+
+<form class="ui form" action="/register" method="POST">
+    <div class="field">
+      <input type="text" name="firstname" placeholder="firstname">
+    </div>
+    <div class="field">
+      <input type="text" name="lastname" placeholder="lastname">
+    </div>
+    <div class="field">
+      <input type="email" name="email" placeholder="email">
+    </div>
+    <div class="field">
+      <input type="password" name="password" placeholder="password">
+    </div>
+    <button class="ui inverted violet button" type="submit">Submit</button>
+</form>
+
+<% include ./partials/footer %>
