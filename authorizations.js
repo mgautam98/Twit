@@ -1,8 +1,8 @@
 var https = require('https'),
 oauthJsonFile = require('fs').createWriteStream('oauth.json');
 var gettingAccess = {
-  consumerKey: 'LIN5nuZwS1H2uWupdw9XqlR3N',
-  consumerSecretKey: '4pYmrfy3lhyRSYFEIMilhR4RL6ebVbDRx7hNg8wcQQMFZIefdq' 
+  consumerKey: ,
+  consumerSecretKey:  
 };
 
 var request = https.request({
